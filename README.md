@@ -13,17 +13,42 @@ AI Coach reads your **local** Claude Code / Cowork session logs, works out how y
 | `/coach` | `coach-output/report.html`: scores, strengths, 4 to 6 concrete opportunities, a one-week challenge, plus charts of your usage rhythm, task mix, and tools | **You only.** It quotes short excerpts of your own prompts. |
 | `/field-notes` | `coach-output/insights.html`: an analyst-voice research note on what heavy AI agent use looks like, with every number tagged *measured* or *modeled* | **Shareable** (LinkedIn, a blog, a team update). Aggregate numbers only, no prompt content or project names. |
 
-Both commands are namespaced by the plugin, so if another command shares a name you can type `/ai-usage-coach:coach` or `/ai-usage-coach:field-notes` instead.
-
 ## Requirements
 
 - **Claude Code** (the CLI, or the Code tab in the Claude desktop app).
 - **Python 3.9+** on your PATH as `python` (on Windows, the `py` launcher also works). No extra packages are needed.
+- **Git**, to clone the repo. (No Git? On the GitHub page, use **Code**, then **Download ZIP**, and unzip it.)
 - Some history to analyze. Claude Code keeps session logs in `~/.claude/projects` automatically.
 
 ## Installation
 
-In Claude Code, run these two commands:
+Clone the repo anywhere on your machine. A spot like `Documents` works well:
+
+```bash
+git clone https://github.com/BetsolLLC/ai-coach.git
+```
+
+That's it. There's nothing to install or configure.
+
+To get updates later, run `git pull` inside the `ai-coach` folder.
+
+## Usage
+
+1. Open the `ai-coach` folder in Claude Code. In the desktop app, choose it as the session's folder in the Code tab. In a terminal, `cd ai-coach` and run `claude`.
+2. Type `/coach` and press Enter.
+3. Approve the Python commands when Claude asks. Claude scans your logs, reads the summary, writes your coaching, and opens the report in your browser.
+
+Your report lands in `ai-coach/coach-output/`. Git ignores that folder, so your data never gets committed or pushed, even by accident.
+
+Re-run `/coach` every few weeks to track how your habits change. Each run overwrites the previous report.
+
+For the shareable version, type `/field-notes` in the same folder. Read it before you post it.
+
+> **Note:** Claude Code also has its own built-in `/insights` command, which writes a different usage report to `~/.claude/usage-data/`. That isn't this tool; AI Coach's command is `/coach`.
+
+### Alternative: install as a plugin
+
+If you'd rather have `/coach` available in every folder instead of only inside `ai-coach`, install the repo as a Claude Code plugin. This is a per-person setup in your own Claude Code; it doesn't need an admin and doesn't change anything for anyone else.
 
 ```
 /plugin marketplace add BetsolLLC/ai-coach
@@ -33,21 +58,7 @@ In Claude Code, run these two commands:
 /plugin install ai-usage-coach@ai-coach
 ```
 
-You can also clone the repo and point the first command at the local folder path instead.
-
-Restart Claude Code (or start a new session) if the commands don't show up right away.
-
-To update later: `/plugin marketplace update ai-coach`.
-
-## Usage
-
-1. Open Claude Code in any folder where you're happy for a `coach-output/` folder to be created. A dedicated folder such as `Documents/AI Coach` works well.
-2. Type `/coach` and press Enter.
-3. Approve the Python commands when Claude asks. Claude scans your logs, reads the summary, writes your coaching, and opens the report in your browser.
-
-Re-run it every few weeks to track how your habits change. Each run overwrites the previous report.
-
-For the shareable version, type `/field-notes` in the same folder. Read it before you post it.
+Then use `/coach` or `/field-notes` from any folder. Reports go to `coach-output/` in whatever folder you're in. If another command has the same name, type `/ai-usage-coach:coach` instead. To update, run `/plugin marketplace update ai-coach`.
 
 ### Add your claude.ai chat history (optional)
 
@@ -56,11 +67,11 @@ Chats from claude.ai are stored on Anthropic's servers, not your PC, so they nee
 - **Free, Pro, or Max plans:** claude.ai, then Settings, Privacy, **Export data**. You'll get an emailed download link.
 - **Team or Enterprise plans:** only the organization's Primary Owner can export (Organization settings, Data and privacy, **Export Data**), and that export covers the whole organization. Extract your own conversations first.
 
-Put `conversations.json` in a `chat-export` folder inside the folder you run `/coach` from, or pass the path directly: `/coach --chat-export C:\path\to\conversations.json`.
+Put `conversations.json` in a `chat-export` folder inside the `ai-coach` folder (or whatever folder you run `/coach` from), or pass the path directly: `/coach --chat-export C:\path\to\conversations.json`.
 
 ### Personalize the shareable report (optional)
 
-By default `/field-notes` names nobody. To add a byline, your organization, or a persistent-memory agent you run on top of Claude Code, copy [`coach-config.example.json`](coach-config.example.json) to `coach-config.json` in the folder you run the commands from and fill in what applies:
+By default `/field-notes` names nobody. To add a byline, your organization, or a persistent-memory agent you run on top of Claude Code, copy [`coach-config.example.json`](coach-config.example.json) to `coach-config.json` in the same folder and fill in what applies:
 
 | Key | What it does |
 |---|---|
@@ -126,7 +137,8 @@ Everything lands in `coach-output/` in the folder you ran the command from. Dele
 ## Repository layout
 
 ```
-.claude-plugin/marketplace.json   Marketplace manifest (lets /plugin install find the plugin)
+.claude/commands/                 /coach and /field-notes when you open the cloned folder
+.claude-plugin/marketplace.json   Plugin catalog entry (only used by the optional plugin install)
 ai-usage-coach/                   The plugin
   .claude-plugin/plugin.json
   commands/coach.md               /coach
