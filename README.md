@@ -26,14 +26,14 @@ Both commands are namespaced by the plugin, so if another command shares a name 
 In Claude Code, run these two commands:
 
 ```
-/plugin marketplace add <github-owner>/ai-coach
+/plugin marketplace add BetsolLLC/ai-coach
 ```
 
 ```
 /plugin install ai-usage-coach@ai-coach
 ```
 
-Replace `<github-owner>` with the GitHub user or organization that hosts this repo. You can also clone the repo and point the first command at the local folder path instead.
+You can also clone the repo and point the first command at the local folder path instead.
 
 Restart Claude Code (or start a new session) if the commands don't show up right away.
 
