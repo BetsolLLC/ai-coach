@@ -1,0 +1,13 @@
+{
+  "name": "ai-coach",
+  "owner": {
+    "name": "Justin Gesso"
+  },
+  "plugins": [
+    {
+      "name": "ai-usage-coach",
+      "source": "./ai-usage-coach",
+      "description": "Personal AI usage coach for knowledge workers. Analyzes your local Claude Code / Cowork logs and renders a private coaching report (/coach) plus an optional shareable, aggregate-only field-notes report (/field-notes)."
+    }
+  ]
+}

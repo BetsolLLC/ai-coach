@@ -1,0 +1,14 @@
+# Personal output and data: never commit these
+coach-output/
+chat-export/
+conversations.json
+coach-config.json
+
+# Python
+__pycache__/
+*.pyc
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.claude/settings.local.json
